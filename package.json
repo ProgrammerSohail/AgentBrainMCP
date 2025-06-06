@@ -1,0 +1,44 @@
+{
+  "name": "context-aware-mcp",
+  "version": "1.0.0",
+  "description": "A context-aware memory system for AI coding assistants that provides persistent memory and project context",
+  "main": "index.js",
+  "bin": {
+    "context-aware-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start:file-server": "node FileSystemServer/server.js",
+    "dev:file-server": "nodemon FileSystemServer/server.js",
+    "start:commander": "node CommanderMCP/server.js",
+    "dev:commander": "nodemon CommanderMCP/server.js",
+    "postinstall": "node ./scripts/check-setup.js",
+    "map": "node ./scripts/map-project.js"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "coding",
+    "memory",
+    "context",
+    "cursor",
+    "copilot",
+    "claude"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.13.0",
+    "chokidar": "^3.5.3",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

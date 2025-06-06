@@ -1,0 +1,341 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "type": "file",
+      "name": "server.js",
+      "path": "mcp-agent-dev\\CommanderMCP\\server.js",
+      "components": [
+        "server"
+      ],
+      "imports": [
+        {
+          "path": "../utils/memoryManager",
+          "specifiers": [
+            {
+              "type": "named",
+              "name": "readMemoryFile"
+            },
+            {
+              "type": "named",
+              "name": "writeMemoryFile"
+            }
+          ]
+        },
+        {
+          "path": "../utils/projectMapper",
+          "specifiers": [
+            {
+              "type": "default",
+              "name": "ProjectMapper"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "type": "component",
+      "name": "server",
+      "definedIn": "mcp-agent-dev\\CommanderMCP\\server.js"
+    },
+    {
+      "id": 2,
+      "type": "file",
+      "name": "simple-client.js",
+      "path": "mcp-agent-dev\\examples\\simple-client.js",
+      "components": [
+        "simple-client"
+      ],
+      "imports": []
+    },
+    {
+      "id": 3,
+      "type": "component",
+      "name": "simple-client",
+      "definedIn": "mcp-agent-dev\\examples\\simple-client.js"
+    },
+    {
+      "id": 4,
+      "type": "file",
+      "name": "server.js",
+      "path": "mcp-agent-dev\\FileSystemServer\\server.js",
+      "components": [
+        "server"
+      ],
+      "imports": []
+    },
+    {
+      "id": 5,
+      "type": "file",
+      "name": "index.js",
+      "path": "mcp-agent-dev\\index.js",
+      "components": [
+        "index"
+      ],
+      "imports": []
+    },
+    {
+      "id": 6,
+      "type": "component",
+      "name": "index",
+      "definedIn": "mcp-agent-dev\\index.js"
+    },
+    {
+      "id": 7,
+      "type": "file",
+      "name": "check-setup.js",
+      "path": "mcp-agent-dev\\scripts\\check-setup.js",
+      "components": [
+        "check-setup"
+      ],
+      "imports": []
+    },
+    {
+      "id": 8,
+      "type": "component",
+      "name": "check-setup",
+      "definedIn": "mcp-agent-dev\\scripts\\check-setup.js"
+    },
+    {
+      "id": 9,
+      "type": "file",
+      "name": "map-project.js",
+      "path": "mcp-agent-dev\\scripts\\map-project.js",
+      "components": [
+        "map-project"
+      ],
+      "imports": [
+        {
+          "path": "../utils/projectMapper",
+          "specifiers": [
+            {
+              "type": "default",
+              "name": "ProjectMapper"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "component",
+      "name": "map-project",
+      "definedIn": "mcp-agent-dev\\scripts\\map-project.js"
+    },
+    {
+      "id": 11,
+      "type": "file",
+      "name": "memoryManager.js",
+      "path": "mcp-agent-dev\\utils\\memoryManager.js",
+      "components": [
+        "memoryManager"
+      ],
+      "imports": []
+    },
+    {
+      "id": 12,
+      "type": "component",
+      "name": "memoryManager",
+      "definedIn": "mcp-agent-dev\\utils\\memoryManager.js"
+    },
+    {
+      "id": 13,
+      "type": "file",
+      "name": "projectMapper.js",
+      "path": "mcp-agent-dev\\utils\\projectMapper.js",
+      "components": [
+        "projectMapper"
+      ],
+      "imports": []
+    },
+    {
+      "id": 14,
+      "type": "component",
+      "name": "projectMapper",
+      "definedIn": "mcp-agent-dev\\utils\\projectMapper.js"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "defines"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "defines"
+    },
+    {
+      "source": 4,
+      "target": 1,
+      "type": "defines"
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "type": "defines"
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "type": "defines"
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "type": "defines"
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "type": "defines"
+    },
+    {
+      "source": 13,
+      "target": 14,
+      "type": "defines"
+    },
+    {
+      "source": 0,
+      "target": 11,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 12,
+      "type": "uses"
+    },
+    {
+      "source": 0,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 14,
+      "type": "uses"
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 9,
+      "target": 14,
+      "type": "uses"
+    },
+    {
+      "source": 0,
+      "target": 11,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 12,
+      "type": "uses"
+    },
+    {
+      "source": 0,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 14,
+      "type": "uses"
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 9,
+      "target": 14,
+      "type": "uses"
+    },
+    {
+      "source": 0,
+      "target": 11,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 12,
+      "type": "uses"
+    },
+    {
+      "source": 0,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 0,
+      "target": 14,
+      "type": "uses"
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "type": "imports"
+    },
+    {
+      "source": 9,
+      "target": 14,
+      "type": "uses"
+    }
+  ],
+  "groups": [
+    {
+      "id": 0,
+      "name": "mcp-agent-dev",
+      "path": "mcp-agent-dev",
+      "parentPath": ""
+    },
+    {
+      "id": 1,
+      "name": "CommanderMCP",
+      "path": "mcp-agent-dev\\CommanderMCP",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 2,
+      "name": "examples",
+      "path": "mcp-agent-dev\\examples",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 3,
+      "name": "FileSystemServer",
+      "path": "mcp-agent-dev\\FileSystemServer",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 4,
+      "name": "memory",
+      "path": "mcp-agent-dev\\memory",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 5,
+      "name": "prompts",
+      "path": "mcp-agent-dev\\prompts",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 6,
+      "name": "scripts",
+      "path": "mcp-agent-dev\\scripts",
+      "parentPath": "mcp-agent-dev"
+    },
+    {
+      "id": 7,
+      "name": "utils",
+      "path": "mcp-agent-dev\\utils",
+      "parentPath": "mcp-agent-dev"
+    }
+  ]
+}

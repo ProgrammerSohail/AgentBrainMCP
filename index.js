@@ -14,8 +14,20 @@ const readline = require('readline');
 // Load environment variables
 dotenv.config();
 
-// Default ports
-const SERVER_PORT = process.env.SERVER_PORT || 9000;
+const configPath = path.join(__dirname, 'config.json');
+let config = {};
+if (fs.existsSync(configPath)) {
+  config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+}
+
+const SERVER_PORT = config.filesystemPort || process.env.SERVER_PORT || 9000;
+const COMMANDER_PORT = config.commanderPort || process.env.COMMANDER_PORT || 4000;
+const DEFAULT_SHELL = config.defaultShell || 'powershell';
+const ALLOWED_DIRECTORIES = config.allowedDirectories || [path.resolve(__dirname)];
+const BLOCKED_COMMANDS = config.blockedCommands || [];
+const FILE_READ_LINE_LIMIT = config.fileReadLineLimit || 1000;
+const FILE_WRITE_LINE_LIMIT = config.fileWriteLineLimit || 50;
+const TELEMETRY_ENABLED = config.telemetryEnabled !== undefined ? config.telemetryEnabled : true;
 
 // Banner
 console.log(`
@@ -36,7 +48,7 @@ if (!fs.existsSync(envPath)) {
   console.log('📝 Creating .env file with default settings...');
   fs.writeFileSync(
     envPath,
-    `SERVER_PORT=${SERVER_PORT}\n`
+    `SERVER_PORT=${SERVER_PORT}\nCOMMANDER_PORT=${COMMANDER_PORT}\nDEFAULT_SHELL=${DEFAULT_SHELL}\nALLOWED_DIRECTORIES=${ALLOWED_DIRECTORIES.join(',')}\nBLOCKED_COMMANDS=${BLOCKED_COMMANDS.join(',')}\nFILE_READ_LINE_LIMIT=${FILE_READ_LINE_LIMIT}\nFILE_WRITE_LINE_LIMIT=${FILE_WRITE_LINE_LIMIT}\nTELEMETRY_ENABLED=${TELEMETRY_ENABLED}\n`
   );
   console.log('✅ .env file created');
 }

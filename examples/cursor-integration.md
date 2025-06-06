@@ -19,8 +19,8 @@ You have access to the MCP Agent which provides long-term memory for this projec
 ## Memory Access
 
 You can access project memory through these endpoints:
-- FileSystemServer: http://localhost:3000
-- CommanderMCP: ws://localhost:4000
+- FileSystemServer: http://localhost:4000
+- CommanderMCP: ws://localhost:5000
 
 ## Memory Files
 

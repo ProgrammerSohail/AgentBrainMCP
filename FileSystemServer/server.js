@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const port = process.env.FILESYSTEM_PORT || 3000;
+const port = process.env.FILESYSTEM_PORT || 4000;
 
 app.use(express.json({ limit: '50mb' }));
 

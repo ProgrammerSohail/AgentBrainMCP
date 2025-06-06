@@ -187,3 +187,25 @@ AgentBrainMCP solves this by providing persistent memory that remains available 
 ## 👨‍💻 Created By
 
 ProgrammerSohail 
+
+## ⚙️ Runtime Configuration with config.json
+
+All runtime configuration is now managed in a single, user-editable `config.json` file in the project root. This file controls ports, allowed directories, shell, command limits, and more.
+
+### Example config.json
+```json
+{
+  "filesystemPort": 4000,
+  "commanderPort": 5000,
+  "defaultShell": "powershell",
+  "allowedDirectories": ["C:/Users/progr/OneDrive/Documents/MCP/AgentBrainMCP"],
+  "blockedCommands": ["rm", "del", "shutdown"],
+  "fileReadLineLimit": 1000,
+  "fileWriteLineLimit": 50,
+  "telemetryEnabled": true
+}
+```
+
+- **Edit this file to change runtime settings.**
+- If a value is missing, the system falls back to `.env` or a default.
+- See comments in the file for what each option does. 

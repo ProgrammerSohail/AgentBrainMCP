@@ -39,7 +39,7 @@ if (!fs.existsSync(envPath)) {
   console.log('📝 Creating .env file with default settings...');
   fs.writeFileSync(
     envPath,
-    'FILESYSTEM_PORT=3000\nCOMMANDER_PORT=4000\n'
+    'FILESYSTEM_PORT=4000\nCOMMANDER_PORT=5000\n'
   );
 }
 

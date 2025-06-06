@@ -9,8 +9,8 @@ const WebSocket = require('ws');
 const axios = require('axios');
 
 // Configuration
-const FILE_SERVER_URL = 'http://localhost:3000';
-const COMMANDER_URL = 'ws://localhost:4000';
+const FILE_SERVER_URL = 'http://localhost:4000';
+const COMMANDER_URL = 'ws://localhost:5000';
 
 // Connect to CommanderMCP via WebSocket
 console.log('Connecting to CommanderMCP...');

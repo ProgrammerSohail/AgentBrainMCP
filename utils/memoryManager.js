@@ -2,6 +2,18 @@ const fs = require('fs-extra');
 const path = require('path');
 const config = require('../config.json');
 
+// Fallback if config is missing required properties
+if (!config.allowedDirectories) {
+  config.allowedDirectories = ['./memory', './logs'];
+  console.warn('No allowedDirectories in config.json, using defaults');
+}
+
+// Fallback if config is missing required properties
+if (!config.allowedDirectories) {
+  config.allowedDirectories = ['./memory', './logs'];
+  console.warn('No allowedDirectories in config.json, using defaults');
+}
+
 const memoryPath = path.join(__dirname, '..', 'memory');
 const auditLogPath = path.join(__dirname, '..', 'logs', 'audit.log');
 

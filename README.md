@@ -198,7 +198,7 @@ All runtime configuration is now managed in a single, user-editable `config.json
   "filesystemPort": 4000,
   "commanderPort": 5000,
   "defaultShell": "powershell",
-  "allowedDirectories": ["C:/Users/progr/OneDrive/Documents/MCP/AgentBrainMCP"],
+  "allowedDirectories": ["[Your_Dir]/AgentBrainMCP"],
   "blockedCommands": ["rm", "del", "shutdown"],
   "fileReadLineLimit": 1000,
   "fileWriteLineLimit": 50,

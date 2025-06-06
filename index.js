@@ -292,12 +292,59 @@ function logAudit(action, details, result) {
   fs.appendFileSync(auditLogPath, entry);
 }
 
+const MUTABLE_CONFIG_KEYS = [
+  'allowedDirectories',
+  'blockedCommands',
+  'defaultShell',
+  'fileReadLineLimit',
+  'fileWriteLineLimit',
+  'telemetryEnabled',
+  'filesystemPort',
+  'commanderPort',
+  'configApiPort'
+];
+
+function validateConfigKeyValue(key, value) {
+  switch (key) {
+    case 'allowedDirectories':
+      return Array.isArray(value) && value.every(v => typeof v === 'string');
+    case 'blockedCommands':
+      return Array.isArray(value) && value.every(v => typeof v === 'string');
+    case 'defaultShell':
+      return typeof value === 'string';
+    case 'fileReadLineLimit':
+    case 'fileWriteLineLimit':
+      return Number.isInteger(value) && value > 0;
+    case 'telemetryEnabled':
+      return typeof value === 'boolean';
+    case 'filesystemPort':
+    case 'commanderPort':
+    case 'configApiPort':
+      return Number.isInteger(value) && value > 0 && value < 65536;
+    default:
+      return false;
+  }
+}
+
 // POST update config value
 app.post('/api/config', (req, res) => {
+  // Localhost-only check
+  if (req.ip !== '::1' && req.ip !== '127.0.0.1' && req.ip !== '::ffff:127.0.0.1') {
+    logAudit('CONFIG_UPDATE', req.body, 'rejected: non-localhost');
+    return res.status(403).json({ error: 'Config API is restricted to localhost only.' });
+  }
   const { key, value } = req.body;
   if (!key) {
     logAudit('CONFIG_UPDATE', { key, value }, 'error: missing key');
     return res.status(400).json({ error: 'Missing key' });
+  }
+  if (!MUTABLE_CONFIG_KEYS.includes(key)) {
+    logAudit('CONFIG_UPDATE', { key, value }, 'rejected: unknown key');
+    return res.status(403).json({ error: 'Key not allowed' });
+  }
+  if (!validateConfigKeyValue(key, value)) {
+    logAudit('CONFIG_UPDATE', { key, value }, 'rejected: invalid value');
+    return res.status(400).json({ error: 'Invalid value for key' });
   }
   config[key] = value;
   // Persist to config.json

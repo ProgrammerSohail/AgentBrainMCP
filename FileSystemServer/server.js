@@ -8,7 +8,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const port = process.env.FILESYSTEM_PORT || 4000;
+const configPath = path.join(__dirname, '..', 'config.json');
+let config = {};
+if (fs.existsSync(configPath)) {
+  config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+}
+const port = config.filesystemPort || process.env.FILESYSTEM_PORT || 4000;
 
 app.use(express.json({ limit: '50mb' }));
 
@@ -38,12 +43,15 @@ watcher
   });
 
 // Helper to check if a path is allowed
+const ALLOWED_DIRECTORIES = (config.allowedDirectories || [path.resolve(__dirname, '..')])
+  .map(d => path.resolve(d));
+
 function isPathAllowed(fullPath) {
   return ALLOWED_DIRECTORIES.some(dir => {
-    const resolvedDir = path.resolve(dir);
-    return fullPath.startsWith(resolvedDir);
-  });
-}
+     const resolvedDir = path.resolve(dir);
+     return fullPath.startsWith(resolvedDir);
+   });
+ }
 
 // API Routes
 

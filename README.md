@@ -1,4 +1,4 @@
-# MCP Agent
+# AgentBrainMCP
 
 A context-aware memory system for AI coding assistants.
 
@@ -7,8 +7,8 @@ A context-aware memory system for AI coding assistants.
 ### Option 1: Quick Start (Local)
 ```bash
 # Clone and install
-git clone https://github.com/yourusername/mcp-agent.git
-cd mcp-agent
+git clone https://github.com/ProgrammerSohail/AgentBrainMCP.git
+cd AgentBrainMCP
 npm install
 
 # Start everything with one command
@@ -18,15 +18,15 @@ npm start
 ### Option 2: Global Installation
 ```bash
 # Install globally
-npm install -g mcp-agent
+npm install -g agentbrain-mcp
 
 # Run from anywhere
-mcp-agent
+AgentBrainMCP
 ```
 
 ## 🧠 What It Does
 
-MCP Agent provides long-term memory for AI coding assistants like Cursor, GitHub Copilot, Claude, etc. It:
+AgentBrainMCP provides long-term memory for AI coding assistants like Cursor, GitHub Copilot, Claude, etc. It:
 
 - Stores project context, decisions, and architecture
 - Tracks file changes and project evolution
@@ -37,14 +37,71 @@ MCP Agent provides long-term memory for AI coding assistants like Cursor, GitHub
 
 ## 🤖 Using with AI Assistants
 
-1. Start MCP Agent: `npm start`
-2. Type `prompt` in the MCP console to see the starter prompt
+1. Start AgentBrainMCP: `npm start`
+2. Type `prompt` in the console to see the starter prompt
 3. Copy this prompt into your AI assistant
 4. The AI can now access your project's memory!
 
+## 🔌 IDE & AI Assistant Integrations
+
+AgentBrainMCP works with most popular AI coding assistants through the [Model Context Protocol (MCP)](docs/model-context-protocol.md):
+
+### Cursor
+Cursor has built-in support for context-aware memory via its Rules system:
+
+```json
+{
+   "mcpAgent": {
+      "url": "http://localhost:9000",
+      "description": "MCP Agent for long-term memory and context"
+   }
+}
+```
+
+Create `.cursor/rules/agentbrain.mdc` with the starter prompt to fully integrate.
+
+### Claude Code
+Claude Code seamlessly integrates with AgentBrainMCP:
+
+1. Install Claude Code CLI
+2. Create a `CLAUDE.md` file in your project that references AgentBrainMCP
+3. Claude Code will automatically load project memory when started
+
+### GitHub Copilot
+GitHub Copilot now supports Agent Mode and MCP in JetBrains and Eclipse:
+
+```json
+{ 
+    "servers": { 
+        "AgentBrain": { 
+            "command": "npx", 
+            "args": [ 
+                "agentbrain-mcp", 
+                "start" 
+            ]
+        } 
+    } 
+}
+```
+
+### Windsurf (formerly Codeium)
+Windsurf Editor has a sophisticated Context-Awareness Engine:
+
+1. Create `.windsurf/rules` directory
+2. Add a `.windsurfrules` file referencing AgentBrainMCP
+
+### Other MCP-Compatible Assistants
+Works with any AI coding assistant that supports the Model Context Protocol:
+
+- Cline (Claude Developer)
+- Roo Code
+- Qodo
+- Tabnine
+- And more!
+
 ## 🗺️ Project Structure Mapping
 
-MCP Agent can analyze your project's structure and create a visual map of connections between files and components:
+AgentBrainMCP can analyze your project's structure and create a visual map of connections between files and components:
 
 ```bash
 # Map your project structure
@@ -68,7 +125,7 @@ This helps AI assistants understand the architecture without scanning every file
 
 ## 🔄 Memory Management
 
-MCP Agent implements best practices from industry tools like Cursor, Cody, Windsurf, and Claude Code:
+AgentBrainMCP implements best practices from industry tools like Cursor, Cody, Windsurf, and Claude Code:
 
 - **Structured Memory Files**: Organized by category (decisions, todos, etc.)
 - **Markdown Formatting**: Clean bullet points under descriptive headings
@@ -92,17 +149,12 @@ See [Cursor Integration Guide](docs/cursor-integration.md) for detailed setup.
 
 ```json
 {
-  "mcpAgent": {
-    "fileSystemUrl": "http://localhost:3000",
-    "commanderUrl": "ws://localhost:4000"
-  }
+   "mcpAgent": {
+      "url": "http://localhost:9000",
+      "description": "MCP Agent for long-term memory and context"
+    }
 }
 ```
-
-### For API Access
-- FileSystemServer: `http://localhost:3000`
-- CommanderMCP: `ws://localhost:4000`
-- Web UI: `http://localhost:4000`
 
 ## 📚 Memory Files
 
@@ -118,10 +170,20 @@ All project memory is stored in the `memory/` directory:
 
 ## 📝 Commands
 
-When MCP Agent is running:
+When AgentBrainMCP is running:
 - `help`: Show available commands
 - `status`: Check server status
 - `restart`: Restart both servers
 - `prompt`: Show the starter prompt for AI assistants
 - `map`: Generate project structure map
-- `quit`: Stop servers and exit 
+- `quit`: Stop servers and exit
+
+## 🤔 Why Context Matters in AI Coding
+
+Modern AI coding assistants embedded in IDEs rely heavily on context windows and external memory to handle large projects. Without additional memory, these assistants "quickly forget" earlier decisions once the context window is full. For example, when a codebase grows, the AI loses track of high-level design and repeats work unless it has access to stored design decisions and history.
+
+AgentBrainMCP solves this by providing persistent memory that remains available across coding sessions, ensuring your AI assistant maintains a complete understanding of your project.
+
+## 👨‍💻 Created By
+
+ProgrammerSohail 

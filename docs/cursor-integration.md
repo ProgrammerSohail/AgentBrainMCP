@@ -1,13 +1,13 @@
-# Integrating MCP Agent with Cursor
+# Integrating AgentBrainMCP with Cursor
 
-The MCP (Master Control Program) Agent is designed to work seamlessly with Cursor's rules system, providing persistent memory and context for your AI coding assistant.
+The AgentBrainMCP is designed to work seamlessly with Cursor's rules system, providing persistent memory and context for your AI coding assistant.
 
 ## Setup
 
-1. Start the MCP Agent in your project:
+1. Start the AgentBrainMCP in your project:
    ```bash
    cd path/to/your/project
-   npx context-aware-mcp start
+   npx agentbrain-mcp start
    ```
 
 2. Create a `.cursor` directory in your project root if it doesn't exist:
@@ -15,35 +15,36 @@ The MCP (Master Control Program) Agent is designed to work seamlessly with Curso
    mkdir -p .cursor
    ```
 
-3. Create a `mcp.json` configuration file:
+3. Create a configuration file:
    ```bash
-   touch .cursor/mcp.json
+   touch .cursor/agentbrain.json
    ```
 
-4. Add the following configuration to `mcp.json`:
+4. Add the following configuration to `agentbrain.json`:
    ```json
    {
      "enabled": true,
-     "serverUrl": "http://localhost:4000",
+     "url": "http://localhost:9000",
      "memoryPath": "./memory",
-     "autoSync": true
+     "autoSync": true,
+     "description": "AgentBrainMCP for long-term memory and context"
    }
    ```
 
-5. Create a Cursor rule file that loads the MCP Agent context:
+5. Create a Cursor rule file that loads the AgentBrainMCP context:
 
 ## Cursor Rule Integration
 
-Create a file `.cursor/rules/mcp-agent.mdc` with the following content:
+Create a file `.cursor/rules/agentbrain.mdc` with the following content:
 
 ```markdown
-# MCP Agent Integration
+# AgentBrainMCP Integration
 
-This rule integrates the MCP (Master Control Program) Agent with Cursor to provide persistent memory and context awareness.
+This rule integrates the AgentBrainMCP with Cursor to provide persistent memory and context awareness.
 
 ## Project Context
 
-The MCP Agent maintains the following memory files for this project:
+The AgentBrainMCP maintains the following memory files for this project:
 
 - project.json: Project metadata and goals
 - architecture.md: System architecture documentation
@@ -69,7 +70,7 @@ The MCP Agent maintains the following memory files for this project:
 
 ## Slash Commands
 
-The following slash commands are available through the MCP Agent:
+The following slash commands are available through the AgentBrainMCP:
 
 - /remember [text]: Save important information to memory
 - /done [task]: Mark a todo as complete and log it
@@ -79,9 +80,9 @@ The following slash commands are available through the MCP Agent:
 Think of yourself as the project's institutional memory, ensuring continuity and coherence even as the codebase evolves.
 ```
 
-## Using MCP Agent with Cursor
+## Using AgentBrainMCP with Cursor
 
-Once the integration is set up, Cursor will automatically load the MCP Agent context for every prompt. You can use the slash commands directly in your Cursor chat to interact with the MCP Agent.
+Once the integration is set up, Cursor will automatically load the AgentBrainMCP context for every prompt. You can use the slash commands directly in your Cursor chat to interact with the AgentBrainMCP.
 
 For example:
 
@@ -107,9 +108,9 @@ For example:
 
 ## Accessing Memory Files
 
-You can access the memory files directly in your project's `memory` directory, or through the MCP Agent's API:
+You can access the memory files directly in your project's `memory` directory, or through the AgentBrainMCP's API:
 
-- Web UI: http://localhost:4000
+- Web UI: http://localhost:9000
 - API Endpoints:
   - GET `/api/context`: Get current project context
   - GET `/api/structure`: Get project structure
@@ -118,11 +119,11 @@ You can access the memory files directly in your project's `memory` directory, o
 
 ## Troubleshooting
 
-If you encounter issues with the MCP Agent integration:
+If you encounter issues with the AgentBrainMCP integration:
 
-1. Make sure the MCP Agent is running (`npx context-aware-mcp status`)
-2. Check that the `.cursor/mcp.json` configuration is correct
-3. Verify that Cursor can access the MCP Agent server (default: http://localhost:4000)
+1. Make sure the AgentBrainMCP is running (`npx agentbrain-mcp status`)
+2. Check that the `.cursor/agentbrain.json` configuration is correct
+3. Verify that Cursor can access the AgentBrainMCP server (default: http://localhost:9000)
 4. Restart Cursor if necessary
 
-For more information, see the [MCP Agent documentation](../README.md). 
+For more information, see the [AgentBrainMCP documentation](../README.md) and learn about the [Model Context Protocol](model-context-protocol.md). 

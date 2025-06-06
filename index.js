@@ -15,8 +15,7 @@ const readline = require('readline');
 dotenv.config();
 
 // Default ports
-const FILESYSTEM_PORT = process.env.FILESYSTEM_PORT || 3000;
-const COMMANDER_PORT = process.env.COMMANDER_PORT || 4000;
+const SERVER_PORT = process.env.SERVER_PORT || 9000;
 
 // Banner
 console.log(`
@@ -25,6 +24,8 @@ console.log(`
 ║         CONTEXT-AWARE MCP STARTING            ║
 ║                                               ║
 ║   Persistent Memory for AI Coding Assistants  ║
+║                                               ║
+║               ProgrammerSohail                ║
 ║                                               ║
 ╚═══════════════════════════════════════════════╝
 `);
@@ -35,7 +36,7 @@ if (!fs.existsSync(envPath)) {
   console.log('📝 Creating .env file with default settings...');
   fs.writeFileSync(
     envPath,
-    `FILESYSTEM_PORT=${FILESYSTEM_PORT}\nCOMMANDER_PORT=${COMMANDER_PORT}\n`
+    `SERVER_PORT=${SERVER_PORT}\n`
   );
   console.log('✅ .env file created');
 }
@@ -159,18 +160,16 @@ Available commands:
   map       - Generate project structure map
   quit      - Stop servers and exit
 
-Context-Aware MCP Agent is running at:
-  - FileSystemServer: http://localhost:${FILESYSTEM_PORT}
-  - CommanderMCP: http://localhost:${COMMANDER_PORT} (WebSocket: ws://localhost:${COMMANDER_PORT})
+Context-Aware AgentBrainMCP is running at:
+  - Server: http://localhost:${SERVER_PORT}
 `);
 }
 
 // Show status
 function showStatus() {
   console.log(`
-Context-Aware MCP Agent Status:
-  - FileSystemServer: ${fileSystemServer?.killed ? 'Stopped' : 'Running'} (http://localhost:${FILESYSTEM_PORT})
-  - CommanderMCP: ${commanderServer?.killed ? 'Stopped' : 'Running'} (http://localhost:${COMMANDER_PORT})
+AgentBrainMCP Status:
+  - Server: ${fileSystemServer?.killed && commanderServer?.killed ? 'Stopped' : 'Running'} (http://localhost:${SERVER_PORT})
 `);
 }
 
@@ -207,7 +206,7 @@ function restartServers() {
 }
 
 // Handle user commands
-console.log('\n🤖 Context-Aware MCP Agent is now running! Type "help" for available commands');
+console.log('\n🤖 AgentBrainMCP is now running! Type "help" for available commands');
 
 rl.on('line', (input) => {
   const command = input.trim().toLowerCase();
@@ -230,11 +229,11 @@ rl.on('line', (input) => {
       break;
     case 'quit':
     case 'exit':
-      console.log('👋 Shutting down Context-Aware MCP Agent...');
+      console.log('👋 Shutting down AgentBrainMCP...');
       if (fileSystemServer) fileSystemServer.kill();
       if (commanderServer) commanderServer.kill();
       setTimeout(() => {
-        console.log('✅ Context-Aware MCP Agent has been stopped');
+        console.log('✅ AgentBrainMCP has been stopped');
         process.exit(0);
       }, 500);
       break;
@@ -245,11 +244,11 @@ rl.on('line', (input) => {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  console.log('\n👋 Shutting down Context-Aware MCP Agent...');
+  console.log('\n👋 Shutting down AgentBrainMCP...');
   if (fileSystemServer) fileSystemServer.kill();
   if (commanderServer) commanderServer.kill();
   setTimeout(() => {
-    console.log('✅ Context-Aware MCP Agent has been stopped');
+    console.log('✅ AgentBrainMCP has been stopped');
     process.exit(0);
   }, 500);
 });
@@ -260,8 +259,5 @@ module.exports = {
   startCommanderServer,
   restartServers,
   mapProjectStructure,
-  ports: {
-    fileSystem: FILESYSTEM_PORT,
-    commander: COMMANDER_PORT
-  }
+  port: SERVER_PORT
 }; 

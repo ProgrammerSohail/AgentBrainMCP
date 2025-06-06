@@ -1,7 +1,23 @@
 const fs = require('fs-extra');
 const path = require('path');
+const config = require('../config.json');
 
 const memoryPath = path.join(__dirname, '..', 'memory');
+const auditLogPath = path.join(__dirname, '..', 'logs', 'audit.log');
+
+function isPathAllowed(fullPath) {
+  return config.allowedDirectories.some(dir => {
+    const resolvedDir = path.resolve(dir);
+    return fullPath.startsWith(resolvedDir);
+  });
+}
+
+function logAudit(action, details, result) {
+  const timestamp = new Date().toISOString();
+  const entry = `${timestamp} | ${action} | ${JSON.stringify(details)} | ${result}\n`;
+  fs.ensureDirSync(path.dirname(auditLogPath));
+  fs.appendFileSync(auditLogPath, entry);
+}
 
 /**
  * Read a memory file
@@ -11,9 +27,15 @@ const memoryPath = path.join(__dirname, '..', 'memory');
 async function readMemoryFile(fileName) {
   try {
     const filePath = path.join(memoryPath, fileName);
+    if (!isPathAllowed(filePath)) {
+      logAudit('READ_MEMORY_FILE', { fileName }, 'denied');
+      throw new Error('Access to this file is not allowed by security policy.');
+    }
     const data = await fs.readFile(filePath, 'utf8');
+    logAudit('READ_MEMORY_FILE', { fileName }, 'success');
     return data;
   } catch (error) {
+    logAudit('READ_MEMORY_FILE', { fileName }, 'error');
     console.error(`Error reading memory file ${fileName}:`, error);
     return null;
   }
@@ -28,9 +50,15 @@ async function readMemoryFile(fileName) {
 async function writeMemoryFile(fileName, content) {
   try {
     const filePath = path.join(memoryPath, fileName);
+    if (!isPathAllowed(filePath)) {
+      logAudit('WRITE_MEMORY_FILE', { fileName }, 'denied');
+      throw new Error('Access to this file is not allowed by security policy.');
+    }
     await fs.writeFile(filePath, content, 'utf8');
+    logAudit('WRITE_MEMORY_FILE', { fileName }, 'success');
     return true;
   } catch (error) {
+    logAudit('WRITE_MEMORY_FILE', { fileName }, 'error');
     console.error(`Error writing to memory file ${fileName}:`, error);
     return false;
   }

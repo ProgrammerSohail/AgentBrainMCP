@@ -10,6 +10,7 @@ const fs = require('fs-extra');
 const dotenv = require('dotenv');
 const { spawn } = require('child_process');
 const readline = require('readline');
+const express = require('express');
 
 // Load environment variables
 dotenv.config();
@@ -272,4 +273,46 @@ module.exports = {
   restartServers,
   mapProjectStructure,
   port: SERVER_PORT
-}; 
+};
+
+// REST API for runtime config management
+const app = express();
+app.use(express.json());
+
+// GET current config
+app.get('/api/config', (req, res) => {
+  res.json(config);
+});
+
+const auditLogPath = path.join(__dirname, 'logs', 'audit.log');
+function logAudit(action, details, result) {
+  const timestamp = new Date().toISOString();
+  const entry = `${timestamp} | ${action} | ${JSON.stringify(details)} | ${result}\n`;
+  fs.ensureDirSync(path.dirname(auditLogPath));
+  fs.appendFileSync(auditLogPath, entry);
+}
+
+// POST update config value
+app.post('/api/config', (req, res) => {
+  const { key, value } = req.body;
+  if (!key) {
+    logAudit('CONFIG_UPDATE', { key, value }, 'error: missing key');
+    return res.status(400).json({ error: 'Missing key' });
+  }
+  config[key] = value;
+  // Persist to config.json
+  try {
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    logAudit('CONFIG_UPDATE', { key, value }, 'success');
+    res.json({ success: true, config });
+  } catch (err) {
+    logAudit('CONFIG_UPDATE', { key, value }, 'error: write failed');
+    res.status(500).json({ error: 'Failed to write config file' });
+  }
+});
+
+// Start the config API server (on a separate port or the same as main server)
+const CONFIG_API_PORT = config.configApiPort || 5050;
+app.listen(CONFIG_API_PORT, () => {
+  console.log(`Config API server running on port ${CONFIG_API_PORT}`);
+}); 

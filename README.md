@@ -209,3 +209,24 @@ All runtime configuration is now managed in a single, user-editable `config.json
 - **Edit this file to change runtime settings.**
 - If a value is missing, the system falls back to `.env` or a default.
 - See comments in the file for what each option does. 
+
+## 🛡️ Best Practices for Configuration and Security
+
+- **Edit `config.json` for all runtime settings.** Do not edit `.env` except for legacy compatibility.
+- **Keep memory files (in `memory/`) separate from operational config (`config.json`).** Memory files store project context, decisions, and todos; `config.json` controls how the server runs.
+- **Restrict `allowedDirectories` to only the folders you want the agent to access.** Never use `/` or your entire home directory unless absolutely necessary.
+- **Be careful with `blockedCommands`.** Add any dangerous or system-level commands you do not want the agent to run.
+- **Never share your `config.json` or memory files with untrusted parties.**
+- **Audit logs are stored in `logs/audit.log`.** Review them regularly for unexpected actions.
+
+## ⚠️ Security Warnings
+
+- File and command operations are restricted to `allowedDirectories` and `blockedCommands`, but always review your config for mistakes.
+- If you change `allowedDirectories` to an empty array or `/`, the agent can access your entire filesystem.
+- If you remove all `blockedCommands`, the agent could run any command your OS user can run.
+
+## 📝 Safe Configuration Changes
+
+- **Use the REST API (`/api/config`) or edit `config.json` directly for config changes.**
+- **If using an AI assistant, make config changes in a separate chat or session from your main work.** This prevents accidental context leaks or misconfigurations.
+- **After changing config, check the audit log (`logs/audit.log`) to confirm the change was applied.** 

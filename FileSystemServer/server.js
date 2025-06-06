@@ -37,6 +37,14 @@ watcher
     console.log(`File ${path} has been added at ${timestamp}`);
   });
 
+// Helper to check if a path is allowed
+function isPathAllowed(fullPath) {
+  return ALLOWED_DIRECTORIES.some(dir => {
+    const resolvedDir = path.resolve(dir);
+    return fullPath.startsWith(resolvedDir);
+  });
+}
+
 // API Routes
 
 // Get file content
@@ -46,10 +54,11 @@ app.get('/api/file', async (req, res) => {
     if (!filePath) {
       return res.status(400).json({ error: 'File path is required' });
     }
-
     const fullPath = path.resolve(filePath);
+    if (!isPathAllowed(fullPath)) {
+      return res.status(403).json({ error: 'Access to this path is not allowed by security policy.' });
+    }
     const content = await fs.readFile(fullPath, 'utf8');
-    
     return res.json({
       path: filePath,
       content,
@@ -68,15 +77,12 @@ app.post('/api/file', async (req, res) => {
     if (!filePath || content === undefined) {
       return res.status(400).json({ error: 'File path and content are required' });
     }
-
     const fullPath = path.resolve(filePath);
-    
-    // Ensure directory exists
+    if (!isPathAllowed(fullPath)) {
+      return res.status(403).json({ error: 'Access to this path is not allowed by security policy.' });
+    }
     await fs.ensureDir(path.dirname(fullPath));
-    
-    // Write file
     await fs.writeFile(fullPath, content, 'utf8');
-    
     return res.json({ 
       success: true, 
       path: filePath,
